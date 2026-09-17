@@ -1,118 +1,78 @@
-# Ex5 Stack Operations
-## DATE:
+
+# Ex5 Count Inversions in an Array
 ## AIM:
-To write a C function to perform push and pop operation of the stack in the infix to postfix conversion.
+To write a Java program  to Count the number of inversions in an array where inversion is defined as: arr[i] > arr[j] and i < j
 
 ## Algorithm
-1.Start the program
-2.Initialize stack and set top = -1
-3.Define push() function to insert element into stack
-4.Define pop() function to remove element from stack
-5.Read elements and perform push/pop operations
-6.Display stack elements
-7.Stop the program 
+1. Read n and the array elements.
+2. Use merge sort to split the array into halves.
+3. Count inversions in the left half and right half.
+4. Merge the halves and count cross-inversions when right element < left element.
+5. Add all inversion counts and print the result.   
 
 ## Program:
 ```
-/*
-Program to perform push and pop operations using stack
 Developed by: AATHI.S
-RegisterNumber:  212223220001
+RegisterNumber: 212223220001
+```
+```
+import java.util.Scanner;
+
+public class CountInversions {
+    public static int mergeSortAndCount(int[] arr, int left, int right) {
+        int count = 0;
+        if (left < right) {
+            int mid = (left + right) / 2;
+            count += mergeSortAndCount(arr, left, mid);
+            count += mergeSortAndCount(arr, mid + 1, right);
+            count += mergeAndCount(arr, left, mid, right);
+        }
+        return count;
+    }
+
+    private static int mergeAndCount(int[] arr, int left, int mid, int right) {
+        int[] leftArr = new int[mid - left + 1];
+        int[] rightArr = new int[right - mid];
+
+        for (int i = 0; i < leftArr.length; i++) leftArr[i] = arr[left + i];
+        for (int i = 0; i < rightArr.length; i++) rightArr[i] = arr[mid + 1 + i];
+
+        int i = 0, j = 0, k = left, swaps = 0;
+
+        while (i < leftArr.length && j < rightArr.length) {
+            if (leftArr[i] <= rightArr[j]) {
+                arr[k++] = leftArr[i++];
+            } else {
+                arr[k++] = rightArr[j++];
+                swaps += (leftArr.length - i); // Count inversions
+                
+            }
+       
+        }
+
+        while (i < leftArr.length) arr[k++] = leftArr[i++];
+        while (j < rightArr.length) arr[k++] = rightArr[j++];
+
+        return swaps;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
+        System.out.println(mergeSortAndCount(arr, 0, n - 1));
+    }
+}
+
+
 */
-
-#include<stdio.h>
-
-#define MAX 5
-
-int stack[MAX];
-int top = -1;
-
-void push(int x)
-{
-    if(top == MAX - 1)
-    {
-        printf("Stack Overflow\n");
-    }
-    else
-    {
-        stack[++top] = x;
-        printf("%d pushed into stack\n", x);
-    }
-}
-
-void pop()
-{
-    if(top == -1)
-    {
-        printf("Stack Underflow\n");
-    }
-    else
-    {
-        printf("%d popped from stack\n", stack[top--]);
-    }
-}
-
-void display()
-{
-    int i;
-    if(top == -1)
-    {
-        printf("Stack is empty\n");
-    }
-    else
-    {
-        printf("Stack elements:\n");
-        for(i = top; i >= 0; i--)
-        {
-            printf("%d\n", stack[i]);
-        }
-    }
-}
-
-int main()
-{
-    int choice, value;
-
-    do
-    {
-        printf("\n1.Push\n2.Pop\n3.Display\n4.Exit\n");
-        printf("Enter choice: ");
-        scanf("%d", &choice);
-
-        switch(choice)
-        {
-            case 1:
-                printf("Enter value: ");
-                scanf("%d", &value);
-                push(value);
-                break;
-
-            case 2:
-                pop();
-                break;
-
-            case 3:
-                display();
-                break;
-
-            case 4:
-                printf("Exiting...");
-                break;
-
-            default:
-                printf("Invalid choice\n");
-        }
-
-    } while(choice != 4);
-
-    return 0;
-}
 ```
 
 ## Output:
 
-<img width="605" height="758" alt="image" src="https://github.com/user-attachments/assets/19f25aeb-d88f-4202-ad9a-c686a6886bd7" />
+<img width="466" height="401" alt="image" src="https://github.com/user-attachments/assets/b2686bb6-2298-4e84-bfaf-02f66055ae6c" />
 
 
 ## Result:
-Thus the C program to perform push and pop operation of the stack in the infix to postfix conversion is implemented successfully.
+Thus the Java program to to Count the number of inversions in an array where inversion is defined as: arr[i] > arr[j] and i < jis implemented successfully.
