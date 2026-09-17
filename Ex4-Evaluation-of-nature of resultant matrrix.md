@@ -13,7 +13,7 @@ To write a java function to evaluate weather the given Matrix A has all odd numb
 
 ## Program:
 ```
-Developed by: 212223220001
+Developed by: AATHI.S
 RegisterNumber: 212223220001
 ```
 ```
